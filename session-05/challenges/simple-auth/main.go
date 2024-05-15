@@ -98,12 +98,10 @@ func profile(w http.ResponseWriter, r *http.Request) {
 }
 
 func login(w http.ResponseWriter, r *http.Request) {
-	// Check method
+	// check method
 	if r.Method == "POST" {
 		email := r.FormValue("email")
-		// password := r.FormValue("password") // Unused
-
-		// Get user by email
+		// get user by email
 		var user User
 		for _, u := range users {
 			if u.Email == email {
@@ -111,9 +109,8 @@ func login(w http.ResponseWriter, r *http.Request) {
 				break
 			} 
 		} 
-		// If user not found, render login page with error message
+		// if user not found, render login page with error message
 		if user.Email == "" {
-
 			tpl, err := template.ParseFiles("notfound.html")
 			if err != nil {
 				http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -123,13 +120,13 @@ func login(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 		
-		// Redirect to profile page
+		// redirect to profile page
 		redirectURL := fmt.Sprintf("/profile?email=%s", user.Email)
 		http.Redirect(w, r, redirectURL, http.StatusSeeOther)
 		return
 	}
 
-	// Render login page for GET request
+	// render login page for GET request
 	if r.Method == "GET" {
 		tpl, err := template.ParseFiles("login.html")
 		if err != nil {
