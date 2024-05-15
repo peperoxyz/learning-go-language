@@ -109,7 +109,18 @@ func login(w http.ResponseWriter, r *http.Request) {
 			if u.Email == email {
 				user = u
 				break
+			} 
+		} 
+		// If user not found, render login page with error message
+		if user.Email == "" {
+
+			tpl, err := template.ParseFiles("notfound.html")
+			if err != nil {
+				http.Error(w, err.Error(), http.StatusInternalServerError)
+				return
 			}
+			tpl.Execute(w, "User not found")
+			return
 		}
 		
 		// Redirect to profile page
