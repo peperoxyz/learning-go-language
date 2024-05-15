@@ -18,7 +18,7 @@ func main() {
 		detailStudentByIdOrName(os.Args[1])
 		return
 	}
-	
+
 	listMenus()
 
 	var menu int
@@ -45,7 +45,7 @@ func main() {
 }
 
 func listMenus() {
-	fmt.Println("\n=========== GFW DATABASE ===========\n1. List of Students \n2. Detail Student By Name \n3. Detail Student By CLI Arguments \n====================================")
+	fmt.Println("\n=========== GFW DATABASE ===========\n1. List of Students \n2. Detail Student By Name or ID \n3. Detail Student By CLI Arguments \n====================================")
 }
 
 func listStudents() {
