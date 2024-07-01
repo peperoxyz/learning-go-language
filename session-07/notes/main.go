@@ -1,19 +1,36 @@
 package main
 
-// JSON Decoding and Encoding
+import (
+	"encoding/json"
+	"fmt"
+)
 
+// JSON Decoding to Struct
 // Struct student
 type Student struct {
-	FullName string
-	Email int
-	Age int
+	FullName string	`json:"full_name"`
+	Email string 	`json:"email"`
+	Age int			`json:"age"`
 }
 
 func main () {
-	// #1 Decoding JSON to Struct
-	// JSON data
-	
+	var jsonString = `
+		{
+			"full_name": "Dea Ananda",
+			"email": "dea@gmail.com",
+			"age": 22
+		}
+	`
 
-	// #2 Decoding JSON to Map
-	// 
+	var result Student
+	
+	var err = json.Unmarshal([]byte(jsonString), &result)
+	if err != nil {
+		fmt.Println(err.Error())
+		return
+	}
+
+	fmt.Println("full_name:", result.FullName)
+	fmt.Println("email:", result.Email)
+	fmt.Println("age:", result.Age)
 }
