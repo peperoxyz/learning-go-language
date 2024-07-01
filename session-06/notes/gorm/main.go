@@ -14,6 +14,7 @@ func main() {
 	// CreateUser("deaanandagunawan@gmail.com")
 	// GetUserById(12)
 	// UpdateUserById(1, "dea@gmail.co.id")
+	CreateBook(1, "Laskar Pelangi", "Andrea Hirata", 40 )
 }
 
 func CreateUser(email string) {
@@ -74,4 +75,27 @@ func UpdateUserById(id uint, email string) {
 		return
 	}
 	fmt.Printf("Update user's email: %+v \n", user.Email)
+}
+
+func CreateBook(userId uint, title string, author string, stock int) {
+	// hooks ditulis di model
+
+	// define db
+	db := database.GetDB()
+
+	// define struct
+	Book := models.Book{
+		UserID: userId,
+		Title: title,
+		Author: author,
+		Stock: stock,
+	}
+	
+	err := db.Create(&Book).Error
+	if err != nil {
+		fmt.Println("Error creating book data.", err)
+		return
+	}
+
+	fmt.Println("New book data successfully created: ", Book)
 }
