@@ -11,10 +11,12 @@ import (
 
 func main() {
 	database.StartDB()
-	// CreateUser("deaanandagunawan@gmail.com")
+	// CreateUser("dwiyana@gmail.com")
 	// GetUserById(12)
 	// UpdateUserById(1, "dea@gmail.co.id")
-	CreateBook(1, "Laskar Pelangi", "Andrea Hirata", 40 )
+	// CreateBook(2, "Laskar Pelangi", "Andrea Hirata", 40 )
+	GetUserWithBooks()
+	// DeleteBookById(1)
 }
 
 func CreateUser(email string) {
@@ -98,4 +100,44 @@ func CreateBook(userId uint, title string, author string, stock int) {
 	}
 
 	fmt.Println("New book data successfully created: ", Book)
+}
+
+func GetUserWithBooks() {
+	db := database.GetDB()
+	users := models.User{}
+
+	// preloading (join table book yang terhubung)
+	err := db.Preload("Books").Find(&users).Error
+	if err != nil {
+		fmt.Println("Error getting user data with books.", err.Error())
+		return
+	}
+
+	fmt.Println("User datas with books: ")
+	fmt.Printf("%+v", users)
+}
+
+func DeleteBookById(id uint) {
+	db := database.GetDB()
+
+	book := models.Book{}
+
+	// check the book is exist or not
+	errFind := db.First(&book, id).Error
+	if errFind != nil {
+		if errors.Is(errFind, gorm.ErrRecordNotFound){
+			fmt.Println("Book with id", id, "not found.")
+			return
+		}
+		fmt.Println("Error finding book:", errFind.Error())
+		return
+	}
+
+	err := db.Where("id = ?", id).Delete(&book).Error
+	if err != nil {
+		print("Error deleting book: ", err.Error())
+		return
+	}
+
+	fmt.Printf("Book with id %d  has been successfully deleted.", id)
 }
