@@ -5,7 +5,7 @@ import (
 	"fmt"
 )
 
-// JSON Decoding to Struct
+// JSON Decoding to Slice of Struct
 // Struct student
 type Student struct {
 	FullName string	`json:"full_name"`
@@ -15,14 +15,21 @@ type Student struct {
 
 func main () {
 	var jsonString = `
+	[
 		{
 			"full_name": "Dea Ananda",
 			"email": "dea@gmail.com",
 			"age": 22
+		},
+		{
+			"full_name": "Bru Xhaol",
+			"email": "bruxhaol@gmail.com",
+			"age": 28
 		}
+	]
 	`
 
-	var result Student
+	var result []Student
 	
 	var err = json.Unmarshal([]byte(jsonString), &result)
 	if err != nil {
@@ -30,7 +37,10 @@ func main () {
 		return
 	}
 
-	fmt.Println("full_name:", result.FullName)
-	fmt.Println("email:", result.Email)
-	fmt.Println("age:", result.Age)
+	for i, val := range result {
+		fmt.Printf("Index %d: %+v\n", i+1, val )
+	}
+
+ 
+
 }
