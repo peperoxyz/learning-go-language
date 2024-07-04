@@ -52,7 +52,6 @@ func main() {
 	fmt.Println("Successfully connected to database")
 
 	// handler atau controller
-
 	// createProduct()
     // updateProduct(5, "Mouse Fantech")
     // getProductById(40)
